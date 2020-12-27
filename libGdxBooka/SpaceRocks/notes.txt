@@ -1,0 +1,35 @@
+///// ISSUES /////
+
+
+///// TO DO'S /////
+Killed by UFO sound
+Make playable exe
+Make super missile
+
+
+///// GAME DESCRIPTION /////
+Ufo kills you in one go
+Rock kills one of three spaceship shields
+Ufo gets smaller each time you laser hit it until it disappears
+The game is really quick to start over again in order to achieve the tony hawk effects
+Super missile can get steered after launch. Gets killed by rocks, hits UFO.
+
+Maybe List
+- if you spin 10 times you regain a shield
+- if you hold max speed for 10 sec you regain a shield
+
+
+///// SINGLE PLAYER /////
+Winning condition: Killing UFO
+
+///// ONLINE /////
+Gather points by shooting rocks
+winning conditions: High score
+By shooting your opponent you get his points
+You can build your own spaceship
+...but the color is based on amount of points
+Teams?
+
+If you win you will get promoted to a higher ranking server
+rank score window in each server
+Chat in lobby
