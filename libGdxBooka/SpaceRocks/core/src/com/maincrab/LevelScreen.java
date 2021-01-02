@@ -16,7 +16,7 @@ public abstract class LevelScreen extends BaseScreen {
     private Ufo ufo;
     private boolean gameOver;
     private boolean gameWin;
-    private BaseActor messageLose;
+    private BaseActor messageLose, messageWin;
     private int ufoShrinkAmount = 25;
     private Sound laser;
     private Sound explosion;
@@ -31,8 +31,8 @@ public abstract class LevelScreen extends BaseScreen {
     public static int globH = 1080;
 
     public void initialize() {
-       // Clear Screen
-        if (gameOver) {
+        // Clear Screen
+        if (gameOver || gameWin) {
             clearScreen();
         }
 
@@ -45,8 +45,8 @@ public abstract class LevelScreen extends BaseScreen {
         gameOver = false;
         gameWin = false;
 
-        ufo = new Ufo(1000,300,mainStage);
-        ufo.setSize(400,400);
+        ufo = new Ufo(1000, 300, mainStage);
+        ufo.setSize(400, 400);
         ufo.setBoundaryPolygon(8);
         spaceship = new Spaceship(400, 300, mainStage);
 
@@ -80,7 +80,7 @@ public abstract class LevelScreen extends BaseScreen {
 
     public void update(float dt) {
 
-        // Rock Collisions
+        // Rock hits spaceship
         for (BaseActor rockActor : BaseActor.getList(mainStage,
                 "com.maincrab.Rock")) {
             if (rockActor.overlaps(spaceship)) {
@@ -103,6 +103,8 @@ public abstract class LevelScreen extends BaseScreen {
                     rockActor.remove();
                 }
             }
+
+            // Laser hits rock
             for (BaseActor laserActor : BaseActor.getList(mainStage,
                     "com.maincrab.Laser")) {
                 if (laserActor.overlaps(rockActor)) {
@@ -127,29 +129,26 @@ public abstract class LevelScreen extends BaseScreen {
             boom.centerAtActor(spaceship);
             spaceship.remove();
             spaceship.setPosition(-1000, -1000);
-//            ufo.remove();
-//            ufo.setPosition(-1000,-1000);
             gameOver();
         }
 
         // Laser hits UFO
         for (BaseActor laserActor : BaseActor.getList(mainStage,
                 "com.maincrab.Laser")) {
-            if (laserActor.overlaps(ufo) && ufo.getWidth() >= 25){
+            if (laserActor.overlaps(ufo) && ufo.getWidth() >= 25) {
                 laserActor.remove();
                 Explosion boom = new Explosion(0, 0, mainStage);
                 ufoHit.play();
                 ufo.setSize(ufo.getWidth() - ufoShrinkAmount, ufo.getHeight() - ufoShrinkAmount);
-                boom.centerAtActor(ufo);
-                ufo.hp -=5;
-                ufo.setSpeed(ufo.getSpeed()+75);
+                boom.centerAtActor(laserActor);
+                ufo.hp -= 12.5;
+                ufo.setSpeed(ufo.getSpeed() + 75);
             }
             // Winning condition
             if (ufo.hp <= 0) {
-               ufo.remove();
-               ufo.setPosition(-1000,-1000);
+                ufo.remove();
+                ufo.setPosition(-1000, -1000);
                 gameWin();
-                gameOver = true;
             }
         }
 
@@ -159,7 +158,7 @@ public abstract class LevelScreen extends BaseScreen {
     // override default InputProcessor method
     public boolean keyDown(int keycode) {
 
-        if (gameOver && keycode == Keys.SPACE){
+        if (gameOver && keycode == Keys.SPACE || gameWin && keycode == Keys.SPACE) {
             initialize();
         }
 
@@ -181,27 +180,38 @@ public abstract class LevelScreen extends BaseScreen {
         return false;
     }
 
-    public void gameOver (){
-        messageLose = new BaseActor(0, 0, uiStage);
-        messageLose.loadTexture("message-lose.png");
-        messageLose.centerAtPosition(globW / 2, globH / 2);
-        messageLose.setOpacity(0);
-        messageLose.addAction(Actions.fadeIn(1));
-        gameOver = true;
+    public void gameOver() {
+        if (!gameWin) {
+            messageLose = new BaseActor(0, 0, uiStage);
+            messageLose.loadTexture("message-lose.png");
+            messageLose.centerAtPosition(globW / 2, globH / 2);
+            messageLose.setOpacity(0);
+            messageLose.addAction(Actions.fadeIn(1));
+            gameOver = true;
+        }
     }
-    public void gameWin(){
-        BaseActor messageWin = new BaseActor(0, 0, uiStage);
+
+    public void gameWin() {
+        messageWin = new BaseActor(0, 0, uiStage);
         messageWin.loadTexture("message-win.png");
         messageWin.centerAtPosition(globW / 2, globH / 2);
         messageWin.setOpacity(0);
         messageWin.addAction(Actions.fadeIn(1));
+        gameWin = true;
     }
-    public void clearScreen(){
+
+    public void clearScreen() {
         for (BaseActor rockActor : BaseActor.getList(mainStage,
                 "com.maincrab.Rock")) {
             rockActor.remove();
         }
-        messageLose.remove();
+        if (gameOver) {
+            messageLose.remove();
+        }
+        if (gameWin) {
+            messageWin.remove();
+        }
+
         instrumental.dispose();
     }
 }
