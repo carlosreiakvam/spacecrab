@@ -1,7 +1,7 @@
 # spacecrab
 Asteroids type game, developed using Libgdx.  
 <br>
-Aim: Kill robot  
+Aim: Kill UFO    
 <br>
 Cosmic steering fins: a,d  
 Cosmic throttle: w  
