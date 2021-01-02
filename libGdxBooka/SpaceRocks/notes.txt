@@ -2,8 +2,6 @@
 
 
 ///// TO DO'S /////
-Killed by UFO sound
-Make playable exe
 Make super missile
 
 
