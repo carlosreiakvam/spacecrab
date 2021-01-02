@@ -191,7 +191,8 @@ public abstract class LevelScreen extends BaseScreen {
             messageLose.loadTexture("message-lose.png");
             messageLose.centerAtPosition(globW / 2, globH / 2);
             messageLose.setOpacity(0);
-            messageLose.addAction(Actions.fadeIn(1));
+//            messageLose.addAction(Actions.fadeIn(1));
+            messageLose.addAction(Actions.fadeIn(0));
             gameOver = true;
         }
     }
@@ -201,7 +202,7 @@ public abstract class LevelScreen extends BaseScreen {
         messageWin.loadTexture("message-win.png");
         messageWin.centerAtPosition(globW / 2, globH / 2);
         messageWin.setOpacity(0);
-        messageWin.addAction(Actions.fadeIn(1));
+        messageWin.addAction(Actions.fadeIn(0));
         gameWin = true;
     }
 
@@ -211,10 +212,12 @@ public abstract class LevelScreen extends BaseScreen {
             rockActor.remove();
         }
         if (gameOver) {
-            messageLose.remove();
+            messageLose.addAction(Actions.fadeOut(1));
+//            messageLose.remove();
         }
         if (gameWin) {
-            messageWin.remove();
+            messageWin.addAction(Actions.fadeOut(3));
+//            messageWin.remove();
         }
 
         instrumental.dispose();
