@@ -7,4 +7,6 @@ Cosmic steering fins: a,d
 Cosmic throttle: w  
 Cosmic brakes: e  
 Cosmic teleport: q  
-Cosmic strato gun: space
+Cosmic strato gun: space  
+
+Exit game: escape
