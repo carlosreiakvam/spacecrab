@@ -16,7 +16,8 @@ public abstract class LevelScreen extends BaseScreen {
     private Ufo ufo;
     private boolean gameOver;
     private boolean gameWin;
-    private BaseActor messageLose, messageWin;
+    private BaseActor messageLose;
+    private BaseActor messageWin;
     private int ufoShrinkAmount = 25;
     private Sound laser;
     private Sound explosion;
@@ -123,15 +124,6 @@ public abstract class LevelScreen extends BaseScreen {
             }
         }
 
-        // UFO Collisions
-        if (ufo.overlaps(spaceship)) {
-            Explosion boom = new Explosion(0, 0, mainStage);
-            boom.centerAtActor(spaceship);
-            spaceship.remove();
-            spaceship.setPosition(-1000, -1000);
-            gameOver();
-        }
-
         // Laser hits UFO
         for (BaseActor laserActor : BaseActor.getList(mainStage,
                 "com.maincrab.Laser")) {
@@ -141,18 +133,26 @@ public abstract class LevelScreen extends BaseScreen {
                 ufoHit.play();
                 ufo.setSize(ufo.getWidth() - ufoShrinkAmount, ufo.getHeight() - ufoShrinkAmount);
                 boom.centerAtActor(laserActor);
-                ufo.hp -= 12.5;
+                ufo.hp -= 10;
                 ufo.setSpeed(ufo.getSpeed() + 75);
-            }
-            // Winning condition
-            if (ufo.hp <= 0) {
-                ufo.remove();
-                ufo.setPosition(-1000, -1000);
-                gameWin();
             }
         }
 
+        // UFO hits spaceship
+        if (ufo.overlaps(spaceship)) {
+            Explosion boom = new Explosion(0, 0, mainStage);
+            boom.centerAtActor(spaceship);
+            spaceship.remove();
+            spaceship.setPosition(-1000, -1000);
+            gameOver();
+        }
 
+        // Winning condition
+        if (ufo.hp <= 0 && !gameWin) {
+            ufo.remove();
+            ufo.setPosition(-1000, -1000);
+            gameWin();
+        }
     }
 
     // override default InputProcessor method

@@ -14,6 +14,7 @@ public class Ufo extends BaseActor{
        setMaxSpeed(1000);
        setDeceleration(0);
        setMotionAngle(MathUtils.random(360));
+       this.hp = 100;
     }
 
     public void act (float dt) {
