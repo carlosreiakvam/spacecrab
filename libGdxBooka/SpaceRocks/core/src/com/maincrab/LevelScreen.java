@@ -142,6 +142,7 @@ public abstract class LevelScreen extends BaseScreen {
         if (ufo.overlaps(spaceship)) {
             Explosion boom = new Explosion(0, 0, mainStage);
             boom.centerAtActor(spaceship);
+            explosion.play();
             spaceship.remove();
             spaceship.setPosition(-1000, -1000);
             gameOver();
