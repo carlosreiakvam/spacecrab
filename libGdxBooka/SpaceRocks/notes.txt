@@ -31,3 +31,6 @@ Teams?
 If you win you will get promoted to a higher ranking server
 rank score window in each server
 Chat in lobby
+
+BUILD SETTINGS
+ java -jar packr-all-3.0.1.jar --output C:\pCloudSync\GameDev\spacecrab0.002 --vmargs Xms256m -- packr-config.json

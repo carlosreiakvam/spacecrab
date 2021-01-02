@@ -177,6 +177,11 @@ public abstract class LevelScreen extends BaseScreen {
             spaceship.setSpeed(0);
             spaceship.setAnimationPaused(true);
         }
+
+        if (keycode == Keys.ESCAPE) {
+            Gdx.app.exit();
+        }
+
         return false;
     }
 
