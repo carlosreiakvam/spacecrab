@@ -1,4 +1,4 @@
-# spacecrab
+# Spacecrab
 Asteroids type game, developed using Libgdx.  
 <br>
 Aim: Kill UFO    
